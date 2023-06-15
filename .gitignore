@@ -13,5 +13,8 @@ config/local.py
 .env
 deploy/*.service
 .scannerwork
-venv
-media
+/venv
+/media
+*.env
+
+

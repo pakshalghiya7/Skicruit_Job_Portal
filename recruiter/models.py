@@ -3,9 +3,7 @@ from django.contrib.auth.models import User
 from django_countries.fields import CountryField
 
 # Create your models here.
-
-
-class Job(models.Model):
+class Job(models.Model): 
     user = models.ForeignKey(
         User, related_name="Job_Posting", on_delete=models.CASCADE)
     company = models.CharField(max_length=50)

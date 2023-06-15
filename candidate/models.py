@@ -13,7 +13,7 @@ class Profile(models.Model):
     first_Name = models.CharField(max_length=50)
     middle_Name = models.CharField(max_length=50)
     last_Name = models.CharField(max_length=50)
-    country = CountryField()
+    country = CountryField(null=True,blank=True)
     location = models.CharField(
         max_length=50, null=True, blank=True, verbose_name='City')
     resume = models.FileField(upload_to='resumes')
@@ -30,7 +30,7 @@ class Profile(models.Model):
     looking_for = models.CharField(
         choices=CHOICES, default="Full Time", max_length=30)
     experience = models.IntegerField(verbose_name="Experience In Years")
-    slug = AutoSlugField(populate_from='user', unique=True)
+    slug = AutoSlugField(populate_from='user', unique=True,null=True,blank=True)
 
     # SlugField <-Think
     def __str__(self):
