@@ -16,5 +16,5 @@ deploy/*.service
 /venv
 /media
 *.env
-candidate/migrations/0002_profile_slug_alter_profile_experience_and_more.py
+
 
