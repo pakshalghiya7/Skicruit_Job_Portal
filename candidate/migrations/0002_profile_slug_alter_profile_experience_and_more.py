@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('recruiter', '0002_rename_applied_at_applicants_applied_at_and_more'),
+        # ('recruiter', '0002_rename_applied_at_applicants_applied_at_and_more'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('candidate', '0001_initial'),
     ]
