@@ -54,6 +54,10 @@ class userSkill(models.Model):
     skills = models.ForeignKey(Skill, on_delete=models.CASCADE)
 
 
+    # def __str__(self):
+    #     return self.user_skills
+
+
 class savedJobs(models.Model):
     job = models.ForeignKey(
         Job, related_name="saved_Jobs", on_delete=models.CASCADE)

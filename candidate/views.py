@@ -57,7 +57,7 @@ def edit_profile(request):
         form = ProfileUpdateForm(instance=profile)
     context = {
         "form": form,
-        # "profile":profile ,  #Pass Profile and all and Try!
+        # "profile":profile ,  #Pass Profile and Skills to upadte!
 
     }
 
