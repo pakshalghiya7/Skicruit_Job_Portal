@@ -11,17 +11,17 @@
       <h2><b>Search Jobs</b></h2>
       <form
         class="form-signin mt-4"
-        action="#"
+        action="{% url 'job-search-list' %}"
         method="get"
       >
         <input
-          name="p"
+          name="query"
           type="text"
           class="form-control"
           placeholder="Enter Job Title, Skills, Type or Company"
         /><br />
         <input
-          name="q"
+          name="location"
           type="text"
           class="form-control"
           placeholder="Enter Job Location"
