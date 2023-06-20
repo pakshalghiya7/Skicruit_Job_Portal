@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect,get_object_or_404,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
@@ -7,8 +7,9 @@ from .models import Profile, Skill, userSkill
 from .forms import ProfileUpdateForm, SkillUpdateForm
 # from django import form
 from django.contrib.auth import get_user_model
-from recruiter.models import Job
+from recruiter.models import Job,Selected,Applicants
 from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
+from candidate.models import savedJobs,appliedJobs
 
 # Create your views here.
 
@@ -141,6 +142,54 @@ def job_search_list(request):
     return render(request, 'candidate/job_search_list.html', context)
 
 
+@login_required
+def saved_jobs(request):
+    jobs = savedJobs.objects.filter(
+        user=request.user).order_by('-date_posted')
+    return render(request, 'candidates/saved_jobs.html', {'jobs': jobs, 'candidate_navbar': 1})
 
 
-        
+@login_required
+def applied_jobs(request):
+    jobs = appliedJobs.objects.filter(
+        user=request.user).order_by('-date_posted')
+    statuses = []
+    for job in jobs:
+        if Selected.objects.filter(job=job.job).filter(applicant=request.user).exists():
+            statuses.append(0)
+        elif Applicants.objects.filter(job=job.job).filter(applicant=request.user).exists():
+            statuses.append(1)
+        else:
+            statuses.append(2)
+    zipped = zip(jobs, statuses)
+    return render(request, 'candidates/applied_jobs.html', {'zipped': zipped, 'candidate_navbar': 1})
+
+
+@login_required
+def save_Job(request,slug):
+    user=request.user
+    job=get_object_or_404(Job,slug=slug)
+    saved_Job,created=savedJobs.objects.get_or_create(job=job,user=user)
+    return HttpResponseRedirect('/job/{}'.format(job.slug))
+
+@login_required
+def applied_Job(request,slug):
+    user=request.user
+    job=get_object_or_404(Job,slug=slug)
+    applied_Job,created=appliedJobs.objects.get_or_create(job=job,user=user)
+    applicants,creation=Applicants.objects.get_or_create(job=job,applicants=user)
+    return HttpResponseRedirect('/job/{}'.format(job.slug))
+
+@login_required
+def remove_job(request, slug):
+    user = request.user
+    job = get_object_or_404(Job, slug=slug)
+    saved_job = savedJobs.objects.filter(job=job, user=user).first()
+    saved_job.delete()
+    return HttpResponseRedirect('/job/{}'.format(job.slug))
+
+
+
+
+
+

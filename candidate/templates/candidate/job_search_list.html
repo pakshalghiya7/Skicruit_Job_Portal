@@ -9,7 +9,7 @@
     <div class="row">
       <div class="col-md-6">
         <input
-          name="p"
+          name="query"
           type="text"
           class="form-control"
           placeholder="Enter Job Title, Skills, Type or Company"
@@ -17,7 +17,7 @@
       </div>
       <div class="col-md-6">
         <input
-          name="q"
+          name="location"
           type="text"
           class="form-control"
           placeholder="Enter Job Location"
@@ -37,20 +37,22 @@
     <div class="col-md-6">
       <div class="card card-signin my-2">
         <span class="ml-3 mt-3">
-          <a href="{% url 'job-detail' job.slug %}"
+          {% comment %} <a href="{% url 'job-detail' job.slug %}" {% endcomment %}
+          <a href="{% url 'my-profile' %}"
             ><h4 class="text-dark">
-              <b>{{job.title}} ({{job.job_type}})</b>
+              <b>{{job.title}} ({{job.type}})</b>
             </h4></a
           >
           <p style="font-size: 17px">{{job.company}}<br />{{job.location}}</p>
           <p style="font-size: 15px">
-            {{job.description|truncatewords:30}} -
-            <a href="{% url 'job-detail' job.slug %}">Read More</a>
+            {{job.job_description|truncatewords:30}} -
+            {% comment %} <a href="{% url 'job-detail' job.slug %}">Read More</a> {% endcomment %}
+            <a href="{% url 'my-profile' %}">Read More</a>
           </p>
         </span>
         <div class="card-footer">
           <span style="font-size: 14px"
-            >Posted on {{job.date_posted|date:"F d, Y"}}</span
+            >Posted on {{job.posted_At|date:"F d, Y"}}</span
           >
         </div>
       </div>
@@ -64,12 +66,12 @@
     {% if jobs.has_previous %}
     <a
       class="btn btn-info"
-      href="?page=1{% if request.GET.p %}&p={{ request.GET.p }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+      href="?page=1{% if request.GET.query %}&p={{ request.GET.query }}{% endif %}{% if request.GET.location %}&q={{ request.GET.location }}{% endif %}"
       >&laquo; First</a
     >
     <a
       class="btn btn-danger"
-      href="?page={{ jobs.previous_page_number }}{% if request.GET.p %}&p={{ request.GET.p }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+      href="?page={{ jobs.previous_page_number }}{% if request.GET.query %}&p={{ request.GET.query }}{% endif %}{% if request.GET.location %}&q={{ request.GET.location }}{% endif %}"
       >Prev</a
     >
     {% endif %}
@@ -79,12 +81,12 @@
     {% if jobs.has_next %}
     <a
       class="btn btn-success"
-      href="?page={{ jobs.next_page_number }}{% if request.GET.p %}&p={{ request.GET.p }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+      href="?page={{ jobs.next_page_number }}{% if request.GET.query %}&p={{ request.GET.query }}{% endif %}{% if request.GET.location %}&q={{ request.GET.location }}{% endif %}"
       >Next</a
     >
     <a
       class="btn btn-primary"
-      href="?page={{ jobs.paginator.num_pages }}{% if request.GET.p %}&p={{ request.GET.p }}{% endif %}{% if request.GET.q %}&q={{ request.GET.q }}{% endif %}"
+      href="?page={{ jobs.paginator.num_pages }}{% if request.GET.query %}&p={{ request.GET.query }}{% endif %}{% if request.GET.location %}&q={{ request.GET.location }}{% endif %}"
       >Last &raquo;</a
     >
     {% endif %}
