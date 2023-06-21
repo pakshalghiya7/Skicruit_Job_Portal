@@ -37,8 +37,8 @@
     <div class="col-md-6">
       <div class="card card-signin my-2">
         <span class="ml-3 mt-3">
-          {% comment %} <a href="{% url 'job-detail' job.slug %}" {% endcomment %}
-          <a href="{% url 'my-profile' %}"
+          <a href="{% url 'job-details' job.slug %}"
+
             ><h4 class="text-dark">
               <b>{{job.title}} ({{job.type}})</b>
             </h4></a
@@ -46,8 +46,8 @@
           <p style="font-size: 17px">{{job.company}}<br />{{job.location}}</p>
           <p style="font-size: 15px">
             {{job.job_description|truncatewords:30}} -
-            {% comment %} <a href="{% url 'job-detail' job.slug %}">Read More</a> {% endcomment %}
-            <a href="{% url 'my-profile' %}">Read More</a>
+            <a href="{% url 'job-details' job.slug %}">Read More</a>
+            {% comment %} <a href="{% url 'my-profile' %}">Read More</a> {% endcomment %}
           </p>
         </span>
         <div class="card-footer">

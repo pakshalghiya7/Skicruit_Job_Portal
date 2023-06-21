@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
+from autoslug import AutoSlugField
 
 # Create your models here.
 class Job(models.Model): 
@@ -25,6 +26,7 @@ class Job(models.Model):
     no_Of_Opening = models.IntegerField()
     posted_At = models.DateTimeField(auto_now=True)
     updated_At = models.DateTimeField(auto_now_add=True)
+    slug = AutoSlugField(populate_from='title', unique=True, null=True)
 
     def __str__(self):
         return self.title
