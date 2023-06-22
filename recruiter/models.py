@@ -1,8 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
+# from candidate.models import Skill
+
 
 # Create your models here.
+
+def validate_salary(value):
+    if value < 0 or value > 1000:
+        raise models.ValidationError("Salary must be between 0 and 1000 Lacs per Annum.")
+    
 class Job(models.Model): 
     user = models.ForeignKey(
         User, related_name="Job_Posting", on_delete=models.CASCADE)
@@ -20,15 +27,19 @@ class Job(models.Model):
         max_length=30, choices=CHOICES, default='Full Time', null=True)
     country = CountryField()
   #  City or Location=models.CharField(max_length=50) Django_Cities
-    skills_required = models.CharField(max_length=50)
-    salary = models.IntegerField(help_text="In Lacs/Annum")
-    no_Of_Opening = models.IntegerField()
+    # skills_required = models.CharField(max_length=50)
+    # salary = models.IntegerField(help_text="In Lacs/Annum") #Constraint
+
+
+    skills = models.ForeignKey("candidate.Skill", related_name="Job_Skills", on_delete=models.CASCADE)
+    salary = models.DecimalField(max_digits=5, decimal_places=2, validators=[validate_salary],help_text="In Lacs/Annum")
+    no_of_openings = models.IntegerField()
     posted_At = models.DateTimeField(auto_now=True)
     updated_At = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.title
-
+    
 
 class Applicants(models.Model):
     job = models.ForeignKey(

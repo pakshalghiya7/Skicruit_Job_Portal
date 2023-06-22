@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect,get_object_or_404,HttpResponse
 from .forms import JobPostForm,JobUpdateForm
 from django.contrib.auth.decorators import login_required
 from .models import Job
+from candidate.models import Skill
 # Create your views here.
 
 @login_required
