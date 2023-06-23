@@ -31,8 +31,8 @@ class Job(models.Model):
     skills = models.ForeignKey("candidate.Skill", related_name="Job_Skills", on_delete=models.CASCADE,null=True)
     salary = models.DecimalField(max_digits=5, decimal_places=2, validators=[validate_salary],help_text="In Lacs/Annum")
     no_of_openings = models.IntegerField()
-    posted_At = models.DateTimeField(auto_now=True)
-    updated_At = models.DateTimeField(auto_now_add=True)
+    posted_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)
     slug = AutoSlugField(populate_from='title', unique=True, null=True)
 
     def __str__(self):
@@ -44,7 +44,7 @@ class Applicants(models.Model):
         Job, related_name="Applicants", on_delete=models.CASCADE)
     applicant = models.ForeignKey(
         User, related_name="Applied", on_delete=models.CASCADE)
-    applied_At = models.DateTimeField(auto_now=True)
+    applied_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.applicant

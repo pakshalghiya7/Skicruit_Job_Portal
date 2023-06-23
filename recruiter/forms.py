@@ -4,7 +4,7 @@ from django.forms import ModelForm
 class JobPostForm(ModelForm):
     class Meta:
         model = Job
-        exclude=["user","Posted_At","Updated_At"]
+        exclude=["user","Posted_at","Updated_at"]
         help_texts = {
             'skills_req': 'Enter all the skills required each separated by commas.',
             }
@@ -12,7 +12,7 @@ class JobPostForm(ModelForm):
 class JobUpdateForm(ModelForm):
     class Meta:
         model = Job
-        exclude=["user","Posted_At","Updated_At"]
+        exclude=["user","Posted_at","Updated_at"]
         help_texts = {
             'skills_req': 'Enter all the skills required each separated by commas.',
             }
