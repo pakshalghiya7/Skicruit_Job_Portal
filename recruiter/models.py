@@ -1,7 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
-# from candidate.models import Skill
+from autoslug import AutoSlugField
+
 
 
 # Create your models here.
@@ -26,16 +27,13 @@ class Job(models.Model):
     type = models.CharField(
         max_length=30, choices=CHOICES, default='Full Time', null=True)
     country = CountryField()
-  #  City or Location=models.CharField(max_length=50) Django_Cities
-    # skills_required = models.CharField(max_length=50)
-    # salary = models.IntegerField(help_text="In Lacs/Annum") #Constraint
-
-
-    skills = models.ForeignKey("candidate.Skill", related_name="Job_Skills", on_delete=models.CASCADE)
+    city=models.CharField(max_length=50,null=True)
+    skills = models.ForeignKey("candidate.Skill", related_name="Job_Skills", on_delete=models.CASCADE,null=True)
     salary = models.DecimalField(max_digits=5, decimal_places=2, validators=[validate_salary],help_text="In Lacs/Annum")
     no_of_openings = models.IntegerField()
     posted_At = models.DateTimeField(auto_now=True)
     updated_At = models.DateTimeField(auto_now_add=True)
+    slug = AutoSlugField(populate_from='title', unique=True, null=True)
 
     def __str__(self):
         return self.title

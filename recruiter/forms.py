@@ -12,7 +12,7 @@ class JobPostForm(ModelForm):
 class JobUpdateForm(ModelForm):
     class Meta:
         model = Job
-        exclude=["User","Posted_At","Updated_At"]
+        exclude=["user","Posted_At","Updated_At"]
         help_texts = {
             'skills_req': 'Enter all the skills required each separated by commas.',
             }

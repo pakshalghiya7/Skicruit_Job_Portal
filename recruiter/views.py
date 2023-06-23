@@ -1,67 +1,134 @@
-from django.shortcuts import render,redirect,get_object_or_404,HttpResponse
-from .forms import JobPostForm,JobUpdateForm
-from django.contrib.auth.decorators import login_required
-from .models import Job
-from candidate.models import Skill
-# Create your views here.
+from django.shortcuts import render, redirect, get_object_or_404,HttpResponseRedirect,HttpResponse
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
+from .forms import JobPostForm, JobUpdateForm
+from .models import Job, Applicants, Selected
+from candidate.models import Profile
 
-@login_required
-def home_Recruiter(request):
-    context={
-        "rec_activae_page":"active",
-        "rec_navbar":1
-    }
-    # return render(request,"recruiter/.html",context)
-    return HttpResponse("Recruiter Home Page")
-    # return render(request,"recruiter/ .html",context)
-
-@login_required
-def add_Job(request):
-    user=request.user
-    if request.method=='POST':
+class HomeRecruiterView(LoginRequiredMixin, View):
+    def get(self, request):
+        context = {
+            "rec_activae_page": "active",
+            "rec_navbar": 1
+        }
+        return render(request, "recruiter/.html", context)
+        
+class AddJobView(LoginRequiredMixin, View):
+    def get(self, request):
+        form = JobPostForm()
+        user = request.user
+        context = {
+            "form": form,
+            "user": user,
+            "add_job_page": "active",
+            "rec_navbar": 1,
+        }
+        return render(request, "recruiter/add_job.html", context)
+    
+    def post(self, request):
         form = JobPostForm(request.POST)
+        user = request.user
         if form.is_valid():
-            data=form.save(commit=False)
-            data.user=user
+            data = form.save(commit=False)
+            data.user = user
             form.save()
             return HttpResponse("Job added Successfully")
-    else:
-        form=JobPostForm()
-    context={
-        "form":form,
-        "user":user,
-        "add_job_page":"active",
-        "rec_navbar":1,
-                }
-    return render(request,"recruiter/add_job.html",context)
+        else:
+            context = {
+                "form": form,
+                "user": user,
+                "add_job_page": "active",
+                "rec_navbar": 1,
+            }
+            return render(request, "recruiter/add_job.html", context)
 
-
-
-@login_required
-def edit_job(request, pk):
-    user = request.user
-    job = get_object_or_404(Job, id=pk)
-    if request.method == "POST":
+class EditJobView(LoginRequiredMixin, View):
+    def get(self, request, slug):
+        user = request.user
+        job = get_object_or_404(Job, slug=slug)
+        form = JobUpdateForm(instance=job)
+        context = {
+            'form': form,
+            'rec_navbar': 1,
+            'job': job,
+        }
+        return render(request, 'recruiter/edit_job.html', context)
+    
+    def post(self, request, slug):
+        user = request.user
+        job = get_object_or_404(Job, slug=slug)
         form = JobUpdateForm(request.POST, instance=job)
         if form.is_valid():
             data = form.save(commit=False)
             data.save()
-            return redirect('add-job-detail', id)
-    else:
-        form = JobUpdateForm(instance=job)
-    context = {
-        'form': form,
-        'rec_navbar': 1,
-        'job': job,
-    }
-    return render(request, 'recruiters/   .html', context)
+            return redirect('add-job-detail', slug)
+        else:
+            context = {
+                'form': form,
+                'rec_navbar': 1,
+                'job': job,
+            }
+            return render(request, 'recruiter/edit_job.html', context)
+
+class JobView(LoginRequiredMixin, View):
+    def get(self, request, slug):
+        job = get_object_or_404(Job, slug=slug)
+        context = {
+            "job": job,
+            "rec_navbar": 1,
+        }
+        return render(request, "recruiter/view_job.html", context)
+
+class ApplicantListView(LoginRequiredMixin, View):
+    def get(self, request, slug):
+        job = get_object_or_404(Job, slug=slug)
+        applicants = Applicants.objects.filter(job=job).order_by("-applied_At")
+        profiles = []
+        for applicant in applicants:
+            profile = Profile.objects.filter(user=applicant.applicant).first()
+            profiles.append(profile)
+        context = {
+            'rec_navbar': 1,
+            'profiles': profiles,
+            'job': job,
+        }
+        return render(request, 'recruiter/applicant_list.html', context)
+
+class SelectApplicantView(LoginRequiredMixin, View):
+    def get(self, request, can_id, job_id):
+        job = get_object_or_404(Job, slug=job_id)
+        profile = get_object_or_404(Profile, slug=can_id)
+        user = request.user
+        selected, created = Selected.objects.get_or_create(applicant=profile, job=job)
+        applicant = Applicants.objects.filter(job=job, applicant=user).first()
+        applicant.delete()
+        return HttpResponseRedirect('/hiring/job/{}/applicants'.format(job.slug))
+
+class SelectedListView(LoginRequiredMixin, View):
+    def get(self, request, slug):
+        job = get_object_or_404(Job, slug=slug)
+        selected = Selected.objects.filter(job=job).order_by('date_posted')
+        profiles = []
+        for applicant in selected:
+            profile = Profile.objects.filter(user=applicant.applicant).first()
+            profiles.append(profile)
+        context = {
+            'rec_navbar': 1,
+            'profiles': profiles,
+            'job': job,
+        }
+        return render(request, 'recruiter/selected_list.html', context)
+
+class RemoveApplicantView(LoginRequiredMixin, View):
+    def get(self, request, can_id, job_id):
+        job = get_object_or_404(Job, slug=job_id)
+        profile = get_object_or_404(Profile, slug=can_id)
+        user = profile.user
+        applicant = Applicants.objects.filter(job=job, applicant=user).first()
+        applicant.delete()
+        return HttpResponseRedirect('/hiring/job/{}/applicants'.format(job.slug))
 
 
-@login_required
-def job_view(request,pk):
-    job=get_object_or_404(Job,id=pk)
-    context={
-        "job":job,
-        "rec_navbar":1,
-    }
-    return render (request,"recruiter/   .html",context)
+
+
+
