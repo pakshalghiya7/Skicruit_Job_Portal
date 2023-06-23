@@ -15,7 +15,7 @@ class Job(models.Model):
     user = models.ForeignKey(
         User, related_name="Job_Posting", on_delete=models.CASCADE)
     company = models.CharField(max_length=50)
-    about_Company = models.TextField()
+    about_company = models.TextField()
     title = models.CharField(max_length=50)
     job_description = models.TextField()
     CHOICES = (

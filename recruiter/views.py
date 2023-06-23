@@ -11,7 +11,7 @@ class HomeRecruiterView(LoginRequiredMixin, View):
             "rec_activae_page": "active",
             "rec_navbar": 1
         }
-        return render(request, "recruiter/.html", context)
+        return HttpResponse("Recruiter Home Page")
         
 class AddJobView(LoginRequiredMixin, View):
     def get(self, request):
