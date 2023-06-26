@@ -9,5 +9,8 @@ urlpatterns = [
     path('job/<int:job_id>/select-applicant/<int:can_id>/', views.SelectApplicantView.as_view(), name='select-applicant'),
     path('job/<int:job_id>/remove-applicant/<int:can_id>/', views.RemoveApplicantView.as_view(), name='remove-applicant'),
     path('job/<slug>/selected', views.SelectedListView.as_view(), name='selected-list'),
+    path('jobs/', views.AllJobsView.as_view(), name='all_jobs'),
+    path('candidates/search', views.SearchCandidatesView.as_view(), name='search_candidates'),
+
 ]
 
