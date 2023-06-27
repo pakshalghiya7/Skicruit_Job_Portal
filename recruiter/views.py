@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404,HttpResponseRedirect,HttpResponse
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect, HttpResponse
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .forms import JobPostForm, JobUpdateForm
@@ -7,6 +7,8 @@ from candidate.models import Profile
 # from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
+
+
 class HomeRecruiterView(LoginRequiredMixin, View):
     def get(self, request):
         context = {
@@ -14,7 +16,8 @@ class HomeRecruiterView(LoginRequiredMixin, View):
             "rec_navbar": 1
         }
         return HttpResponse("Recruiter Home Page")
-        
+
+
 class AddJobView(LoginRequiredMixin, View):
     def get(self, request):
         form = JobPostForm()
@@ -26,7 +29,7 @@ class AddJobView(LoginRequiredMixin, View):
             "rec_navbar": 1,
         }
         return render(request, "recruiter/add_job.html", context)
-    
+
     def post(self, request):
         form = JobPostForm(request.POST)
         user = request.user
@@ -44,6 +47,7 @@ class AddJobView(LoginRequiredMixin, View):
             }
             return render(request, "recruiter/add_job.html", context)
 
+
 class EditJobView(LoginRequiredMixin, View):
     def get(self, request, slug):
         user = request.user
@@ -55,7 +59,7 @@ class EditJobView(LoginRequiredMixin, View):
             'job': job,
         }
         return render(request, 'recruiter/edit_job.html', context)
-    
+
     def post(self, request, slug):
         user = request.user
         job = get_object_or_404(Job, slug=slug)
@@ -72,6 +76,7 @@ class EditJobView(LoginRequiredMixin, View):
             }
             return render(request, 'recruiter/edit_job.html', context)
 
+
 class JobView(LoginRequiredMixin, View):
     def get(self, request, slug):
         job = get_object_or_404(Job, slug=slug)
@@ -80,6 +85,7 @@ class JobView(LoginRequiredMixin, View):
             "rec_navbar": 1,
         }
         return render(request, "recruiter/view_job.html", context)
+
 
 class ApplicantListView(LoginRequiredMixin, View):
     def get(self, request, slug):
@@ -96,15 +102,18 @@ class ApplicantListView(LoginRequiredMixin, View):
         }
         return render(request, 'recruiter/applicant_list.html', context)
 
+
 class SelectApplicantView(LoginRequiredMixin, View):
     def get(self, request, can_id, job_id):
         job = get_object_or_404(Job, slug=job_id)
         profile = get_object_or_404(Profile, slug=can_id)
         user = request.user
-        selected, created = Selected.objects.get_or_create(applicant=profile, job=job)
+        selected, created = Selected.objects.get_or_create(
+            applicant=profile, job=job)
         applicant = Applicants.objects.filter(job=job, applicant=user).first()
         applicant.delete()
         return HttpResponseRedirect('/hiring/job/{}/applicants'.format(job.slug))
+
 
 class SelectedListView(LoginRequiredMixin, View):
     def get(self, request, slug):
@@ -121,6 +130,7 @@ class SelectedListView(LoginRequiredMixin, View):
         }
         return render(request, 'recruiter/selected_list.html', context)
 
+
 class RemoveApplicantView(LoginRequiredMixin, View):
     def get(self, request, can_id, job_id):
         job = get_object_or_404(Job, slug=job_id)
@@ -129,7 +139,6 @@ class RemoveApplicantView(LoginRequiredMixin, View):
         applicant = Applicants.objects.filter(job=job, applicant=user).first()
         applicant.delete()
         return HttpResponseRedirect('/hiring/job/{}/applicants'.format(job.slug))
-
 
 
 class AllJobsView(LoginRequiredMixin, View):
@@ -145,15 +154,19 @@ class AllJobsView(LoginRequiredMixin, View):
         }
         return render(request, 'recruiter/job_post.html', context)
 
+
 class SearchCandidatesView(LoginRequiredMixin, View):
     def get(self, request):
-        profile_list = Profile.objects.exclude(user=request.user).filter(resume__isnull=False)
-        
+        profile_list = Profile.objects.exclude(
+            user=request.user).filter(resume__isnull=False)
+
         rec1 = request.GET.get('location')
         rec2 = request.GET.get('type')
 
-        li1 = Profile.objects.all() if rec1 is None else Profile.objects.filter(location__icontains=rec1)
-        li2 = Profile.objects.all() if rec2 is None else Profile.objects.filter(looking_for__icontains=rec2)
+        li1 = Profile.objects.all() if rec1 is None else Profile.objects.filter(
+            location__icontains=rec1)
+        li2 = Profile.objects.all() if rec2 is None else Profile.objects.filter(
+            looking_for__icontains=rec2)
 
         final = li1.intersection(li2)
         profiles_final = final.intersection(profile_list)
@@ -167,13 +180,3 @@ class SearchCandidatesView(LoginRequiredMixin, View):
             'profiles': page_obj,
         }
         return render(request, 'recruiter/candidate_search.html', context)
-
-
-
-
-
-
-
-
-
-
