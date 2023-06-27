@@ -84,7 +84,7 @@ class JobView(LoginRequiredMixin, View):
 class ApplicantListView(LoginRequiredMixin, View):
     def get(self, request, slug):
         job = get_object_or_404(Job, slug=slug)
-        applicants = Applicants.objects.filter(job=job).order_by("-applied_At")
+        applicants = Applicants.objects.filter(job=job).order_by("-applied_at")
         profiles = []
         for applicant in applicants:
             profile = Profile.objects.filter(user=applicant.applicant).first()
@@ -130,83 +130,6 @@ class RemoveApplicantView(LoginRequiredMixin, View):
         applicant.delete()
         return HttpResponseRedirect('/hiring/job/{}/applicants'.format(job.slug))
 
-# @login_required
-# def all_jobs(request):
-#     jobs = Job.objects.filter(recruiter=request.user).order_by('-date_posted')
-#     paginator = Paginator(jobs, 5)
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#     context = {
-#         'manage_jobs_page': "active",
-#         'jobs': page_obj,
-#         'rec_navbar': 1,
-#     }
-#     return render(request, 'recruiters/job_posts.html', context)
-
-# # @login_required
-# # def search_candidates(request):
-# #     profile_list = Profile.objects.all()
-# #     profiles = []
-# #     for profile in profile_list:
-# #         if profile.resume and profile.user != request.user:
-# #             profiles.append(profile)
-
-# #     rec1 = request.GET.get('r')
-# #     rec2 = request.GET.get('s')
-
-# #     if rec1 == None:
-# #         li1 = Profile.objects.all()
-# #     else:
-# #         li1 = Profile.objects.filter(location__icontains=rec1)
-
-# #     if rec2 == None:
-# #         li2 = Profile.objects.all()
-# #     else:
-# #         li2 = Profile.objects.filter(looking_for__icontains=rec2)
-
-# #     final = []
-# #     profiles_final = []
-
-# #     for i in li1:
-# #         if i in li2:
-# #             final.append(i)
-
-# #     for i in final:
-# #         if i in profiles:
-# #             profiles_final.append(i)
-
-# #     paginator = Paginator(profiles_final, 20)
-# #     page_number = request.GET.get('page')
-# #     page_obj = paginator.get_page(page_number)
-# #     context = {
-# #         'search_candidates_page': "active",
-# #         'rec_navbar': 1,
-# #         'profiles': page_obj,
-# #     }
-# #     return render(request, 'recruiters/candidate_search.html', context)
-
-# @login_required
-# def search_candidates(request):
-#     profile_list = Profile.objects.exclude(user=request.user).filter(resume__isnull=False)
-    
-#     rec1 = request.GET.get('loction')
-#     rec2 = request.GET.get('type')
-
-#     li1 = Profile.objects.all() if rec1 is None else Profile.objects.filter(location__icontains=rec1)
-#     li2 = Profile.objects.all() if rec2 is None else Profile.objects.filter(looking_for__icontains=rec2)
-
-#     final = li1.intersection(li2)
-#     profiles_final = final.intersection(profile_list)
-
-#     paginator = Paginator(profiles_final, 5)
-#     page_number = request.GET.get('page')
-#     page_obj = paginator.get_page(page_number)
-#     context = {
-#         'search_candidates_page': "active",
-#         'rec_navbar': 1,
-#         'profiles': page_obj,
-#     }
-#     return render(request, 'recruiters/candidate_search.html', context)
 
 
 class AllJobsView(LoginRequiredMixin, View):
@@ -243,7 +166,7 @@ class SearchCandidatesView(LoginRequiredMixin, View):
             'rec_navbar': 1,
             'profiles': page_obj,
         }
-        return render(request, 'recruiters/candidate_search.html', context)
+        return render(request, 'recruiter/candidate_search.html', context)
 
 
 

@@ -42,16 +42,11 @@ Think About Based On Skills ,Experience
     <div class="col-md-4">
       <div class="card card-signin my-2">
         <span class="ml-3 mt-3">
-          <a href="{% url 'profile-view' profile.slug %}">
-            {% if profile.full_name %}
+     <a href="{% url 'profile-view' profile.slug %}"> 
+            
             <h4 class="text-dark">
-              <b>{{profile.full_name}}</b>
+              <b>{{profile.first_Name}}</b>
             </h4>
-            {% else %}
-            <h4 class="text-dark">
-              <b>{{profile.user.username}}</b>
-            </h4>
-            {% endif %}
           </a>
           <p style="font-size: 17px">
             {{profile.user.email}}<br />{% if profile.location %}
@@ -75,12 +70,12 @@ Think About Based On Skills ,Experience
       {% if profiles.has_previous %}
       <a
         class="btn btn-info"
-        href="?page=1{% if request.GET.r %}&p={{ request.GET.r }}{% endif %}{% if request.GET.s %}&q={{ request.GET.s }}{% endif %}"
+        href="?page=1{% if request.GET.location %}&p={{ request.GET.location }}{% endif %}{% if request.GET.type %}&q={{ request.GET.type }}{% endif %}"
         >&laquo; First</a
       >
       <a
         class="btn btn-danger"
-        href="?page={{ profiles.previous_page_number }}{% if request.GET.r %}&p={{ request.GET.r }}{% endif %}{% if request.GET.s %}&q={{ request.GET.s }}{% endif %}"
+        href="?page={{ profiles.previous_page_number }}{% if request.GET.location %}&p={{ request.GET.location }}{% endif %}{% if request.GET.type %}&q={{ request.GET.type }}{% endif %}"
         >Prev</a
       >
       {% endif %}
@@ -90,12 +85,12 @@ Think About Based On Skills ,Experience
       {% if profiles.has_next %}
       <a
         class="btn btn-success"
-        href="?page={{ profiles.next_page_number }}{% if request.GET.r %}&p={{ request.GET.r }}{% endif %}{% if request.GET.s %}&q={{ request.GET.s }}{% endif %}"
+        href="?page={{ profiles.next_page_number }}{% if request.GET.location %}&p={{ request.GET.location }}{% endif %}{% if request.GET.type %}&q={{ request.GET.type }}{% endif %}"
         >Next</a
       >
       <a
         class="btn btn-primary"
-        href="?page={{ profiles.paginator.num_pages }}{% if request.GET.r %}&p={{ request.GET.r }}{% endif %}{% if request.GET.s %}&q={{ request.GET.s }}{% endif %}"
+        href="?page={{ profiles.paginator.num_pages }}{% if request.GET.location %}&p={{ request.GET.location }}{% endif %}{% if request.GET.type %}&q={{ request.GET.type }}{% endif %}"
         >Last &raquo;</a
       >
       {% endif %}
