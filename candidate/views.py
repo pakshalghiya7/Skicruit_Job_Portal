@@ -215,13 +215,12 @@
 #     return render(request, 'candidate/job_details.html', context)
 
 from django.shortcuts import render, redirect, get_object_or_404, HttpResponseRedirect
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.core.paginator import Paginator
 from .models import Profile, Skill, userSkill
 from .forms import ProfileUpdateForm, SkillUpdateForm
 from recruiter.models import Job, Selected, Applicants
@@ -247,7 +246,7 @@ class MyProfileView(LoginRequiredMixin, View):
             "data": profile,
             "skills": skills,
             "form": form,
-            "profil_Page": "active",
+            "profile_Page": "active",
         }
         return render(request, "candidate/profile.html", context)
 
@@ -267,7 +266,7 @@ class MyProfileView(LoginRequiredMixin, View):
                 "data": profile,
                 "skills": skills,
                 "form": form,
-                "profil_Page": "active",
+                "profile_Page": "active",
             }
             return render(request, "candidate/profile.html", context)
 
@@ -297,8 +296,9 @@ class EditProfileView(LoginRequiredMixin, View):
             return render(request, 'candidate/edit_profile.html', context)
 
 class ProfileViewForRecruiterView(LoginRequiredMixin, View):
-    def get(self, request, pk):
-        profile = Profile.objects.filter(id=pk) #Auto Slug
+    def get(self, request, slug):
+        profile = Profile.objects.filter(user=slug) #Auto Slug
+        print(profile)
         user = profile.user
         profile_skills = userSkill.objects.get(user=user)
         context = {
@@ -347,6 +347,27 @@ class JobSearchListView(LoginRequiredMixin, View):
             'query': search_query,
         }
         return render(request, 'candidate/job_search_list.html', context)
+# class JobSearchListView(LoginRequiredMixin, View):
+#     def get(self, request):
+#         search_query = request.GET.get("query")
+#         search_location = request.GET.get("location")
+        
+#         query = Q(title__icontains=search_query) | Q(company__icontains=search_query) | Q(type__icontains=search_query) | Q(skills_required__icontains=search_query)
+#         find_results = Job.objects.filter(query).order_by("-posted_At")
+        
+#         if search_location:
+#             find_results = find_results.filter(country__icontains=search_location)
+        
+#         paginator = Paginator(find_results, 5)
+#         page_number = request.GET.get('page')
+#         page_obj = paginator.get_page(page_number)
+        
+#         context = {
+#             'jobs': page_obj,
+#             'query': search_query,
+#         }
+        
+#         return render(request, 'candidate/job_search_list.html', context)
 
 class SavedJobsView(LoginRequiredMixin, View):
     def get(self, request):
@@ -367,14 +388,14 @@ class AppliedJobsView(LoginRequiredMixin, View):
         zipped = zip(jobs, statuses)
         return render(request, 'candidate/applied_Jobs.html', {'zipped': zipped, 'candidate_navbar': 1})
 
-class SaveTheGivenJobView(LoginRequiredMixin, View):
+class SaveJobView(LoginRequiredMixin, View):
     def get(self, request, slug):
         user = request.user
         job = get_object_or_404(Job, slug=slug)
         saved_Job, created = savedJobs.objects.get_or_create(job=job, user=user)
         return HttpResponseRedirect('/job/{}'.format(job.slug))
 
-class ApplyTheGivenJobView(LoginRequiredMixin, View):
+class ApplyJobView(LoginRequiredMixin, View):
     def get(self, request, slug):
         user = request.user
         job = get_object_or_404(Job, slug=slug)
@@ -382,7 +403,7 @@ class ApplyTheGivenJobView(LoginRequiredMixin, View):
         applicants, creation = Applicants.objects.get_or_create(job=job, applicant=user)
         return HttpResponseRedirect('/job/{}'.format(job.slug))
 
-class RemoveTheGivenJobView(LoginRequiredMixin, View):
+class RemoveJobView(LoginRequiredMixin, View):
     def get(self, request, slug):
         user = request.user
         job = get_object_or_404(Job, slug=slug)
@@ -400,6 +421,29 @@ class JobDetailsView(LoginRequiredMixin, View):
             applied_button = 1
         if savedJobs.objects.filter(user=user).filter(job=job).exists():
             saved_button = 1
+        relevant_jobs = []
+        jobs1 = Job.objects.filter(
+        company__icontains=job.company).order_by('-date_posted')
+        jobs2 = Job.objects.filter(
+        job_type__icontains=job.job_type).order_by('-date_posted')
+        jobs3 = Job.objects.filter(
+        title__icontains=job.title).order_by('-date_posted')
+        for i in jobs1:
+            if len(relevant_jobs) > 5:
+                break
+            if i not in relevant_jobs and i != job:
+                relevant_jobs.append(i)
+        for i in jobs2:
+            if len(relevant_jobs) > 5:
+                break
+            if i not in relevant_jobs and i != job:
+                relevant_jobs.append(i)
+        for i in jobs3:
+            if len(relevant_jobs) > 5:
+                break
+        if i not in relevant_jobs and i != job:
+            relevant_jobs.append(i)
+
         context = {
             'job': job,
             'profile': profile,
@@ -408,3 +452,14 @@ class JobDetailsView(LoginRequiredMixin, View):
             'candidate_navbar': 1,
         }
         return render(request, 'candidate/job_details.html', context)
+    
+
+
+class DeleteSkillView(LoginRequiredMixin ,View):
+    def post(self, request, pk=None):
+        id_list = request.POST.getlist('choices')
+        for skill_id in id_list:
+            Skill.objects.get(id=skill_id).delete()
+        return redirect('my-profile')
+
+
