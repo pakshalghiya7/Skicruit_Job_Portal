@@ -255,7 +255,7 @@ class MyProfileView(LoginRequiredMixin, View):
         form = SkillUpdateForm(request.POST)
         if form.is_valid():
             data = form.save(commit=False)
-            data.user = you
+            data.user_skills = you
             data.save()
             return redirect('my-profile')
         else:
@@ -458,8 +458,11 @@ class JobDetailsView(LoginRequiredMixin, View):
 class DeleteSkillView(LoginRequiredMixin ,View):
     def post(self, request, pk=None):
         id_list = request.POST.getlist('choices')
+        id_list1=[]
         for skill_id in id_list:
-            Skill.objects.get(id=skill_id).delete()
+           id1= Skill.objects.get(skills=skill_id).id
+           id_list1.append(id1)
+        for ids in id_list1:
+            userSkill.objects.get(skills=ids).delete()
+           
         return redirect('my-profile')
-
-

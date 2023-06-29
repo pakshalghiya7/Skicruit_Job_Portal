@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Profile,Skill,userSkill
+from .models import Profile,Skill,userSkill,Experience
 
 #Widgets and Validation  Add Karva
 class ProfileUpdateForm(ModelForm):
@@ -9,6 +9,14 @@ class ProfileUpdateForm(ModelForm):
 class SkillUpdateForm(ModelForm):
     class Meta:
         model = userSkill
-        fields= '__all__'
+        exclude=["user_skills"]
+        
 
- 
+class ExperienceForm(ModelForm):
+
+    class Meta:
+        model = Experience
+
+        exclude = ['user']
+
+# fields = ['company_name', 'job_title', 'start_date', 'end_date', 'description']
