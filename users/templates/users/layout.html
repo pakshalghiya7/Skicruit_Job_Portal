@@ -1,11 +1,10 @@
-{% load static %} 
-{% comment %} {% load pwa %} {% endcomment %}
+{% load static %}
 <!DOCTYPE html>
 <html>
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8" />
-    {% comment %} {% progressive_web_app_meta %} {% endcomment %}
+    
     <meta
       name="viewport"
       content="width=device-width, initial-scale=1, shrink-to-fit=no"
@@ -13,7 +12,7 @@
     <link
       rel="icon"
       type="image/png"
-      href="#"
+      href="https://dl.dropboxusercontent.com/s/vqp7i2tv6uvc1gs/logofenice.jfif?dl=0"
     />
     <!-- Bootstrap CSS -->
     <link
@@ -58,7 +57,9 @@
   <body>
     {% if not rec_navbar %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-      <a class="navbar-brand" href="#">
+      {% comment %} <a class="navbar-brand" href="{% url 'detail-candidates' %}"> {% endcomment %}
+        <a class="navbar-brand" href=#>
+
         <img
           src="https://dl.dropboxusercontent.com/s/vqp7i2tv6uvc1gs/logofenice.jfif?dl=0"
           width="30"
@@ -80,7 +81,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link {{ home_page }}" href="#"
+          <a class="nav-item nav-link {{ home_page }}" href="{% url 'home' %}"
             >Job Search</a
           >
           <a
@@ -88,23 +89,24 @@
             href="{% url 'my-profile' %}"
             >My Profile</a
           >
+          {% comment %} Intelligent Search {% endcomment %}
           <a
             class="nav-item nav-link {{ intel_page }}"
-            href="#"
+            href=#        
             >Get Relevant Jobs</a
           >
           <a
             class="nav-item nav-link {{ account_page }}"
-            href="#"
+            href="{% url 'account' %}"
             >My Account</a
           >
           {% if user.is_authenticated %}
           <a
             class="nav-item nav-link btn btn-danger ml-4 mr-4 text-light"
-            href="#"
+            href="{% url 'logout' %}"
             >Logout</a
           >
-          <a class="nav-item nav-link" href="#"
+          <a class="nav-item nav-link" href="{% url 'add-job' %}"
             >Recruiters/ Employers</a
           >
           {% else %}
@@ -113,7 +115,7 @@
             href="{% url 'login' %}"
             >Login</a
           >
-          <a class="nav-item nav-link" href="#"
+          <a class="nav-item nav-link" href="{% url 'detail-recruiters' %}"
             >Recruiters/ Employers</a
           >
           {% endif %}
@@ -122,14 +124,14 @@
     </nav>
     {% else %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-      <a class="navbar-brand" href="#">
+      <a class="navbar-brand" href="{% url 'detail-recruiters' %}">
         <img
           src="https://dl.dropboxusercontent.com/s/vqp7i2tv6uvc1gs/logofenice.jfif?dl=0"
           width="30"
           height="30"
           class="d-inline-block align-top mr-3"
           alt=""
-        /><b>Fenice</b>
+        /><b>Skicruit</b>
       </a>
       <button
         class="navbar-toggler"
@@ -146,28 +148,28 @@
         <div class="navbar-nav">
           <a
             class="nav-item nav-link {{ rec_home_page }}"
-            href="#"
+            href="{% url 'detail-recruiters' %}"
             >Home</a
           >
           <a
             class="nav-item nav-link {{ add_job_page }}"
-            href="#"
+            href="{% url 'add-job' %}"
             >Add Job Post</a
           >
           <a
             class="nav-item nav-link {{ manage_jobs_page }}"
-            href="#"
+            href="{% url 'job-list' %}"
             >Manage Your Job Posts</a
           >
           <a
             class="nav-item nav-link {{ search_candidates_page }}"
-            href="#"
+            href="{% url 'search-candidates' %}"
             >Seach Candidates</a
           >
           {% if user.is_authenticated %}
           <a
             class="nav-item nav-link btn btn-danger ml-4 mr-4 text-light"
-            href="#"
+            href="{% url 'logout' %}"
             >Logout</a
           >
           {% else %}
@@ -178,7 +180,7 @@
             >Login</a
           >
           {% endif %}
-          <a class="nav-item nav-link" href="#"
+          <a class="nav-item nav-link" href="{% url 'home' %}"
             >Job Seekers/Candidates</a
           >
         </div>
@@ -187,23 +189,24 @@
     {% endif %}
     <div class="container">{% block content %}{% endblock content %}</div>
 
-    {% comment %} <footer>
+    <footer>
       <hr my-2 />
       <div class="row">
         <div class="col-sm-6 col-md-4 footer-navigation">
-          <h3>Fenice</h3>
+          <h3>Skicruit</h3>
           <p class="links">
-            <a href="{% url 'detail-candidates' %}">Job Seekers</a
+            {% comment %} <a href="{% url 'detail-candidates' %}">Job Seekers</a {% endcomment %}
+              <a href=>Job Seekers</a
             ><strong> · </strong
             ><a href="{% url 'detail-recruiters' %}">Recruiters</a
-            ><strong> · </strong><a href="{% url 'pricing' %}">Pricing</a>
+            ><strong> · </strong><a href=#>Pricing</a>
             <strong> · </strong
-            ><a href="{% url 'terms-of-service' %}">Terms of Service</a>
+            ><a href=#>Terms of Service</a>
             <strong> · </strong
-            ><a href="{% url 'privacy-policy' %}">Privacy Policy</a>
+            ><a href=>Privacy Policy</a>
           </p>
           <p class="company-name">
-            Fenice @ 2020<br /><small class="text-muted"
+            Skicruit @ 2023<br /><small class="text-muted"
               >All rights reserved!</small
             ><br />
           </p>
@@ -223,7 +226,7 @@
         <div class="col-md-4 footer-about">
           <h4>About the company</h4>
           <p>
-            Fenice Networks mission is to make hiring easier. We aim to save
+            Skicruit Networks mission is to make hiring easier. We aim to save
             time for both job seekers and recruiters and to make the hiring
             process smoother. We continue to innovate and find new solutions to
             make hiring process simpler.
@@ -242,7 +245,7 @@
           >Image vectors by - www.freepik.com</a
         >
       </p>
-    </footer> {% endcomment %}
+    </footer>
 
     <!-- JS Files -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
