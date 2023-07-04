@@ -15,7 +15,7 @@ class HomeRecruiterView(LoginRequiredMixin, View):
             "rec_activae_page": "active",
             "rec_navbar": 1
         }
-        return HttpResponse("Recruiter Home Page")
+        return render (request,"recruiter/details.html")
 
 
 class AddJobView(LoginRequiredMixin, View):
@@ -37,7 +37,7 @@ class AddJobView(LoginRequiredMixin, View):
             data = form.save(commit=False)
             data.user = user
             form.save()
-            return HttpResponse("Job added Successfully")
+            return redirect('job-list')
         else:
             context = {
                 "form": form,

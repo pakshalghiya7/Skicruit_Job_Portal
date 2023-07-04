@@ -21,6 +21,9 @@ class HomeCandidateView(View):
         context = {"home_page": 'active'}
         return render(request, "candidate/candidate_Home.html", context)
 
+class CandidateDetailsView(View):
+    def get(self,request):
+        return render(request, "candidate/details.html")
 
 class MyProfileView(LoginRequiredMixin, View):
     def get(self, request):
@@ -108,7 +111,7 @@ class ProfileViewForRecruiterView(LoginRequiredMixin, View):
             "profile": profile,
             "profile_skills": profile_skills,
         }
-        return render(request, "cabdidate/   .html", context)
+        return render(request, "candidate/profile.html", context)
 
 
 class JobSearchListView(LoginRequiredMixin, View):
@@ -126,7 +129,7 @@ class JobSearchListView(LoginRequiredMixin, View):
             find_type = Job.objects.filter(
                 type__icontains=search_query).order_by("-posted_at")
             find_skills = Job.objects.filter(
-                skills_required__icontains=search_query).order_by("-posted_at")
+                skills__skills__icontains=search_query).order_by("-posted_at")
 
             for i in find_title:
                 query_list.append(i)
@@ -221,11 +224,11 @@ class JobDetailsView(LoginRequiredMixin, View):
             saved_button = 1
         relevant_jobs = []
         jobs1 = Job.objects.filter(
-            company__icontains=job.company).order_by('-date_posted')
+            company__icontains=job.company).order_by('-posted_at')
         jobs2 = Job.objects.filter(
-            job_type__icontains=job.job_type).order_by('-date_posted')
+            type__icontains=job.type).order_by('-posted_at')
         jobs3 = Job.objects.filter(
-            title__icontains=job.title).order_by('-date_posted')
+            title__icontains=job.title).order_by('-posted_at')
         for i in jobs1:
             if len(relevant_jobs) > 5:
                 break

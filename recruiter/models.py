@@ -44,7 +44,7 @@ class Applicants(models.Model):
     applied_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.applicant
+        return self.applicant.username
 
 
 class Selected(models.Model):
@@ -55,5 +55,5 @@ class Selected(models.Model):
     date_posted = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.applicant
+        return self.applicant.username
     
