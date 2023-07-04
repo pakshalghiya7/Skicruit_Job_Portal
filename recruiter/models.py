@@ -2,9 +2,6 @@ from django.db import models
 from django.contrib.auth.models import User
 from django_countries.fields import CountryField
 from autoslug import AutoSlugField
-
-
-
 # Create your models here.
 
 def validate_salary(value):
