@@ -1,5 +1,5 @@
 from django.forms import ModelForm
-from .models import Profile, Skill, userSkill, Experience
+from .models import Profile, Skill, UserSkill, Experience
 
 class ProfileUpdateForm(ModelForm):
     class Meta:
@@ -9,7 +9,7 @@ class ProfileUpdateForm(ModelForm):
 
 class SkillUpdateForm(ModelForm):
     class Meta:
-        model = userSkill
+        model = UserSkill
         exclude = ["user_skills"]
 
 

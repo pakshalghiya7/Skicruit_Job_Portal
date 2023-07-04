@@ -66,7 +66,7 @@ class Skill(models.Model):
         return self.skills
 
 
-class userSkill(models.Model):
+class UserSkill(models.Model):
     user_skills = models.ForeignKey(
         User, related_name="user_skills", on_delete=models.CASCADE)
     skills = models.ForeignKey(Skill, on_delete=models.CASCADE)

@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.views import View
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.paginator import Paginator
-from .models import Profile, Skill, userSkill, Experience
+from .models import Profile, Skill, UserSkill, Experience
 from .forms import ProfileUpdateForm, SkillUpdateForm, ExperienceForm
 from recruiter.models import Job, Selected, Applicants
 from candidate.models import savedJobs, appliedJobs
@@ -26,7 +26,7 @@ class MyProfileView(LoginRequiredMixin, View):
     def get(self, request):
         you = request.user
         profile = Profile.objects.filter(user=you).first()
-        skills = userSkill.objects.filter(user_skills=you)
+        skills = UserSkill.objects.filter(user_skills=you)
         experience = Experience.objects.filter(user=you)
         skill_form = SkillUpdateForm()
         experience_form = ExperienceForm()
@@ -57,7 +57,7 @@ class MyProfileView(LoginRequiredMixin, View):
             return redirect('my-profile')
         else:
             profile = Profile.objects.filter(user=you).first()
-            skills = userSkill.objects.filter(user_skills=you)
+            skills = UserSkill.objects.filter(user_skills=you)
             experience = Experience.objects.filter(user=you)
 
             context = {
@@ -103,7 +103,7 @@ class ProfileViewForRecruiterView(LoginRequiredMixin, View):
         profile = Profile.objects.filter(user=slug)
         print(profile)
         user = profile.user
-        profile_skills = userSkill.objects.get(user=user)
+        profile_skills = UserSkill.objects.get(user=user)
         context = {
             "profile": profile,
             "profile_skills": profile_skills,
@@ -120,13 +120,13 @@ class JobSearchListView(LoginRequiredMixin, View):
             job = Job.objects.all()
         else:
             find_title = Job.objects.filter(
-                title__icontains=search_query).order_by("-posted_At")
+                title__icontains=search_query).order_by("-posted_at")
             find_company = Job.objects.filter(
-                company__icontains=search_query).order_by("-posted_At")
+                company__icontains=search_query).order_by("-posted_at")
             find_type = Job.objects.filter(
-                type__icontains=search_query).order_by("-posted_At")
+                type__icontains=search_query).order_by("-posted_at")
             find_skills = Job.objects.filter(
-                skills_required__icontains=search_query).order_by("-posted_At")
+                skills_required__icontains=search_query).order_by("-posted_at")
 
             for i in find_title:
                 query_list.append(i)
@@ -141,7 +141,7 @@ class JobSearchListView(LoginRequiredMixin, View):
             locat = Job.objects.all()
         else:
             locat = Job.objects.filter(
-                country__icontains=search_location).order_by("-posted_At")
+                country__icontains=search_location).order_by("-posted_at")
 
         final_query_list = []
         for i in query_list:
@@ -260,6 +260,6 @@ class DeleteSkillView(LoginRequiredMixin, View):
             id1 = Skill.objects.get(skills=skill_id).id
             id_list1.append(id1)
         for ids in id_list1:
-            userSkill.objects.get(skills=ids).delete()
+            UserSkill.objects.get(skills=ids).delete()
 
         return redirect('my-profile')
