@@ -1,11 +1,13 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
 from django_countries.fields import CountryField
 from recruiter.models import Job
 from autoslug import AutoSlugField
 from django.core.validators import FileExtensionValidator, MinValueValidator, MaxValueValidator
 from datetime import date
 from django.core.exceptions import ValidationError
+from django.conf import settings
+User = settings.AUTH_USER_MODEL
 
 # Create your models here.
 

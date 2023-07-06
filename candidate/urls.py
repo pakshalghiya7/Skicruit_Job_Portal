@@ -15,6 +15,6 @@ urlpatterns = [
     path('applied_job_list/', views.AppliedJobsView.as_view(), name='applied-jobs'),
     path('job/<slug>/remove/', views.RemoveJobView.as_view(), name='remove-job'),
     path('delete_skill/', views.DeleteSkillView.as_view(), name='skill-delete'),
-    path('home/', views.CandidateDetailsView.as_view(), name='home'),
+    path('home/', views.CandidateDetailsView.as_view(), name='home1'),
 ]
 

@@ -151,7 +151,7 @@ class JobSearchListView(LoginRequiredMixin, View):
             if i in locat:
                 final_query_list.append(i)
 
-        paginator = Paginator(final_query_list, 5)
+        paginator = Paginator(final_query_list, 20)
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         context = {
@@ -251,6 +251,7 @@ class JobDetailsView(LoginRequiredMixin, View):
             'applied_button': applied_button,
             'saved_button': saved_button,
             'candidate_navbar': 1,
+            'relevant_jobs': relevant_jobs,
         }
         return render(request, 'candidate/job_details.html', context)
 

@@ -11,9 +11,11 @@ from django.contrib.auth.decorators import login_required
 
 class HomeRecruiterView(LoginRequiredMixin, View):
     def get(self, request):
+        user=request.user
         context = {
-            "rec_activae_page": "active",
-            "rec_navbar": 1
+            "rec_active_page": "active",
+            "rec_navbar": 1,
+            "user":user,
         }
         return render (request,"recruiter/details.html")
 

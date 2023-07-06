@@ -26,6 +26,7 @@ urlpatterns = [
     # Default  URLs which are provided by default but we are overriding this -> For try Uncomment
     path('accounts/', include('allauth.urls')),  
     path('login/', views.login,name="login"),
+    path('signup/', views.signup,name="signup"),
     # path('logout/', views.logout,name="logout"),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('account/', views.login,name="account"),

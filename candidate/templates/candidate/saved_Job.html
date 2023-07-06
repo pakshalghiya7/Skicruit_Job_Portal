@@ -10,20 +10,20 @@
         <span class="ml-3 mt-3">
           <a href="{% url 'job-details' job.job.slug %}"
             ><h4 class="text-dark">
-              <b>{{job.job.title}} ({{job.job.job_type}})</b>
+              <b>{{job.job.title}} ({{job.job.type}})</b>
             </h4></a
           >
           <p style="font-size: 17px">
-            {{job.job.company}}<br />{{job.job.location}}
+            {{job.job.company}}<br />{{job.job.city}}
           </p>
           <p style="font-size: 15px">
-            {{job.job.description|truncatewords:30}} -
+            {{job.job.job_description | truncatewords:30}} -
             <a href="{% url 'job-details' job.job.slug %}">Read More</a>
           </p>
         </span>
         <div class="card-footer">
           <span style="font-size: 14px"
-            >Posted on {{job.job.date_posted|date:"F d, Y"}}</span
+            >Posted on {{job.job.posted_at|date:"F d, Y"}}</span
           >
         </div>
       </div>

@@ -57,8 +57,8 @@
   <body>
     {% if not rec_navbar %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-      {% comment %} <a class="navbar-brand" href="{% url 'detail-candidates' %}"> {% endcomment %}
-        <a class="navbar-brand" href=#>
+      <a class="navbar-brand" href="{% url 'home' %}">
+        {% comment %} <a class="navbar-brand" href=#> {% endcomment %}
 
         <img
           src="https://dl.dropboxusercontent.com/s/vqp7i2tv6uvc1gs/logofenice.jfif?dl=0"
@@ -81,7 +81,7 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
         <div class="navbar-nav">
-          <a class="nav-item nav-link {{ home_page }}" href="{% url 'home' %}"
+          <a class="nav-item nav-link {{ home_page }}" href="{% url 'job-search-list' %}"
             >Job Search</a
           >
           <a

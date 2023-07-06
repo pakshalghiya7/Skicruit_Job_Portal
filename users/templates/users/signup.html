@@ -168,58 +168,75 @@
 </body>
 </html>
   {% endcomment %}
-  {% load static %}
-  {% load socialaccount %}
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- FONT AWESOME -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-  <!-- GOOGLE FONTS -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-   
-  </head>
-  
-  <body>
-    <link rel="stylesheet" href="{% static '/login.css' %}">
-  
-  
-    <form class="registration" method="post">
-      <h1>👋 Welcome Back !</h1>
+{% load static %}
+{% load socialaccount %}
+
+
+  <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <!-- FONT AWESOME -->
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+   <!-- GOOGLE FONTS -->
+   <link rel="preconnect" href="https://fonts.googleapis.com">
+   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
     
+ 
+</head>
+
+<body>
+  <link rel="stylesheet" href="{% static '/login.css' %}">
+
+
+  <form class="registration" method="post">
+    <h1>👋 Welcome!</h1>
   
-      
+
+    <label class="pure-material-textfield-outlined">
+      <input placeholder=" " type="text" required>
+      <span>Username</span>
+    </label>
+
+    <label class="pure-material-textfield-outlined">
+      <input placeholder=" " type="email" required>
+      <span>Email</span>
+    </label>
   
-      <label class="pure-material-textfield-outlined">
-        <input placeholder=" " type="email" required>
-        <span>Email</span>
-      </label>
-    
-      <label class="pure-material-textfield-outlined">
-        <input placeholder=" " type="password" required>
-        <span>Password</span>
-      </label>
-    
-     
-    
-      
-    
-      <button class="pure-material-button-contained" type="submit">Login</button>
-      {% comment %} <a href="{% url 'signup' %} " > New User? Register</a> {% endcomment %}
-      <p class="social-text">You can Login with:</p>
-      <div class="social-media">
-        <a href="{% provider_login_url 'google' %}" class="social-icon" aria-label="Register with Google">
-          <i class="fab fa-google"></i>
-        </a>
-        <a href="#" class="social-icon" aria-label="Register with GitHub">
-          <i class="fab fa-github"></i>
-        </a>
-        
-     
-    </form>
-    <script src="{% static '/assets/js/login.js' %}"></script>
+    <label class="pure-material-textfield-outlined">
+      <input placeholder=" " type="password" required>
+      <span>Password</span>
+    </label>
+  
    
   
-  </body>
+    
+  
+    <button class="pure-material-button-contained" type="submit">Sign Up</button>
+    <a href="{% url 'login' %} " > Already Registered?</a>
+    <p class="social-text">You can SignUp with:</p>
+    <div class="social-media">
+      <a href="{% provider_login_url 'google' %}" class="social-icon" aria-label="Register with Google">
+        <i class="fab fa-google"></i>
+      </a>
+      <a href="#" class="social-icon" aria-label="Register with GitHub">
+        <i class="fab fa-github"></i>
+      </a>
+  
+    <div class="done">
+      <h1>👌 You're all set!</h1>
+      <a class="pure-material-button-text" href="{% url 'login' %}">Login</a>
+    </div>
+    <div class="progress">
+      <progress class="pure-material-progress-circular" />
+    </div>
+  </form>
+  
+ 
+  
+
+  
+	<script src="{% static '/assets/js/login.js' %}"></script>
+ 
+
+</body>

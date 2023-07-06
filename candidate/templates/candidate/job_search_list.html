@@ -31,7 +31,9 @@
     </div>
   </form>
   <hr my-2 />
-  {%if jobs %}
+
+  {% if jobs  %}
+
   <div class="row">
     {% for job in jobs %}
     <div class="col-md-6">
@@ -52,7 +54,7 @@
         </span>
         <div class="card-footer">
           <span style="font-size: 14px"
-            >Posted on {{job.posted_At|date:"F d, Y"}}</span
+            >Posted on {{job.posted_at|date:"F d, Y"}}</span
           >
         </div>
       </div>
@@ -122,7 +124,7 @@
             >
             <a
               class="btn btn-outline-secondary mr-2 mt-2"
-              href="/job/?p=python&q="
+              href="/job/?query=python&q="
               >Python</a
             >
             <a class="btn btn-outline-dark mr-2 mt-2" href="/job/?p=web&q="
