@@ -599,9 +599,14 @@ font-display: block;
   
   
 
-<button type="button" class="btn btn-warning">Find Job !</button>
-<button type="button" class="btn btn-warning">Post Job!</button>
-<a href="{% url 'login' %}"><button type="button" class="btn btn-warning">Login</button> </a>
+
+
+
+<a href="{% url 'signup' %}?user_type=employee " ><button type="button" class="btn btn-warning" >Find Job!</button></a>
+<a href="{% url 'signup' %}?user_type=employer" > <button type="button" class="btn btn-warning" >Post Job!</button></a>
+<a href="{% url 'login' %}"><button type="button" class="btn btn-warning">Login</button></a>
+
+
 
 
 

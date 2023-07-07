@@ -189,37 +189,41 @@
   <link rel="stylesheet" href="{% static '/login.css' %}">
 
 
-  <form class="registration" method="post">
+  <form class="registration" action="{% url 'signup' %}" method="POST">
+  {% csrf_token %} 
     <h1>👋 Welcome!</h1>
   
 
     <label class="pure-material-textfield-outlined">
-      <input placeholder=" " type="text" required>
+      <input placeholder=" "  name="username" type="text" required>
       <span>Username</span>
     </label>
 
     <label class="pure-material-textfield-outlined">
-      <input placeholder=" " type="email" required>
+      <input placeholder=" " name="email" type="email" required>
       <span>Email</span>
     </label>
   
     <label class="pure-material-textfield-outlined">
-      <input placeholder=" " type="password" required>
+      <input placeholder=" " name="password" type="password" required>
       <span>Password</span>
     </label>
-  
-   
+    You are registering a an {{ user_type }}
+    <input type="hidden" name="user_type" value={{user_type}} >
   
     
-  
-    <button class="pure-material-button-contained" type="submit">Sign Up</button>
+  <br/>
+  <br/>
+    <input class="pure-material-button-contained" type=submit value="Sign Up">
+<br/><br/>
     <a href="{% url 'login' %} " > Already Registered?</a>
+    
     <p class="social-text">You can SignUp with:</p>
     <div class="social-media">
       <a href="{% provider_login_url 'google' %}" class="social-icon" aria-label="Register with Google">
         <i class="fab fa-google"></i>
       </a>
-      <a href="#" class="social-icon" aria-label="Register with GitHub">
+      <a href="{% provider_login_url 'github' %}" class="social-icon" aria-label="Register with GitHub">
         <i class="fab fa-github"></i>
       </a>
   

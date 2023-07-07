@@ -186,19 +186,20 @@
     <link rel="stylesheet" href="{% static '/login.css' %}">
   
   
-    <form class="registration" method="post">
+    <form class="registration" action= "{% url 'login' %}"  method="POST">
+      {% csrf_token %}
       <h1>👋 Welcome Back !</h1>
     
   
       
   
       <label class="pure-material-textfield-outlined">
-        <input placeholder=" " type="email" required>
+        <input placeholder=" " type="email" name="email" required>
         <span>Email</span>
       </label>
     
       <label class="pure-material-textfield-outlined">
-        <input placeholder=" " type="password" required>
+        <input placeholder=" " type="password"  name="password" required>
         <span>Password</span>
       </label>
     
@@ -213,7 +214,7 @@
         <a href="{% provider_login_url 'google' %}" class="social-icon" aria-label="Register with Google">
           <i class="fab fa-google"></i>
         </a>
-        <a href="#" class="social-icon" aria-label="Register with GitHub">
+        <a href=" {% provider_login_url 'github'%}" class="social-icon" aria-label="Register with GitHub">
           <i class="fab fa-github"></i>
         </a>
         
