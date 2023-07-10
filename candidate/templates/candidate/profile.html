@@ -13,116 +13,7 @@
     </head>
     <body>
        
-<div class="container">
-  <div class="row">
-    <div class="col-md-6">
-      <div class="card card-signin my-5">
-        <div class="card-body">
-          <h3 class="text-center">Profile Data : {{data.first_Name}}</h3>
-          <br />
-          <form class="form-signin">
-            <div class="form-group">
-              <p>Name: {{ data.first_name }}</p>
-              <p>Middle Name: {{ data.middle_Name }}</p>
-              <p>Last Name : {{ data.last_Name}} </p>
-              <p>Country:  {{ data.country.name }} </p>
-              <p>Location : {{ data.location}} </p>
-              <p>
-                Resume:
-                <a href="{{ data.resume.url }}">Click to View/Download</a>
-              </p>
-              <p>Passing Year : {{ data.passing_year}} </p>
-              <p>Looking For : {{ data.looking_for}} </p>
-              <p>Experience  : {{ data.experience}} </p>
-              
 
-              {{user}}
-                {% if request.user == user %}
-                  <hr class="my-4" />
-                  <a
-                  class="btn btn-warning btn-block"
-                  href="{% url 'edit-profile' %}"
-                  >Edit Profile</a
-                  ><br />
-
-                  <a class="btn btn-primary btn-block" href="#"
-                  >Saved Jobs</a
-                  ><br />
-                  <a
-                  class="btn btn-success btn-block"
-                  href="#"
-                  >Applied Jobs</a
-                  >
-              {% endif %}
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-6">
-      <div class="card card-signin my-5">
-        <div class="card-body">
-          <h3 class="text-center">Skills ({{ skills.count }})</h3>
-          <br />
-          {% if request.user != user %}
-          <ol>
-            
-            {% for skill in skills %}
-            <li>{{skill.user_skills}}</li>
-            {% endfor %}
-          </ol>
-          {% else %}
-          
-          <form class="form-signin" method="POST">
-            {% csrf_token %}
-            <fieldset class="form-group">
-              <br />
-              {{ skill_form|crispy }}
-            </fieldset>
-            <div class="form-group">
-              <button
-                class="btn btn-lg btn-outline-primary btn-block"
-                type="submit"
-              >
-                Add Skill</button
-              ><br />
-            </div>
-          </form>
-          <br />
-          {% if skills %}
-          <form
-            class="form-signin"
-            action="{% url 'skill-delete' %}"
-            method="POST"
-          >
-            {% csrf_token %}
-            {% for skill in skills %}
-            <div>
-              <input
-                class="mr-2"
-                type="checkbox"
-                value="{{ skill.skills }}"
-                name="choices"
-              />{{ skill.skills }}
-            </div>
-            {% endfor %}
-            <br />
-            <div class="form-group">
-              <button
-                class="btn btn-lg btn-outline-danger btn-block"
-                type="submit"
-                name="delete"
-              >
-                Delete Selected Skills</button
-              ><br />
-            </div>
-          </form>
-          {% endif %} {% endif %}
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
 </body>
 
@@ -134,11 +25,11 @@
 <div class="row">
     <div class="col-lg-4 col-xl-4">
         <div class="card-box text-center">
-            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" class="rounded-circle avatar-xl img-thumbnail" alt="profile-image">
+            <img src= "{{ data.profile_photo.url }}" class="rounded-circle avatar-xl img-thumbnail" alt="profile-image">
 
             <h4 class="mb-0"> {{ data.first_name }}</h4>
-            <p class="text-muted">@webdesigner</p>
-          <a href="{% url 'edit-profile' %}"
+            <p class="text-muted"> @{{user.username}}</p>
+          <a href="{% url 'edit-profile' %}">
             <button type="button" class="btn btn-success btn-xs waves-effect mb-2 waves-light" >Edit</button>
         </a>
             <button type="button" class="btn btn-danger btn-xs waves-effect mb-2 waves-light">Message</button>
@@ -148,10 +39,15 @@
                 <p class="text-muted font-13 mb-3">
 {{data.bio}}
                 </p>
-                <p class="text-muted mb-2 font-13"><strong>Full Name :</strong> <span class="ml-2">{{data.first_name}}&nbsp;{{data.middle_name}}&nbsp;{{data.last_name}}</span></p>
-
-                <p class="text-muted mb-2 font-13"><strong>Mobile :</strong><span class="ml-2">(123)
-                        123 1234</span></p>
+                <p class="text-muted mb-2 font-13"><strong>Name :</strong> <span class="ml-2">{{data.first_name}}&nbsp;{{data.middle_name}}&nbsp;{{data.last_name}}</span></p>
+                {% if data.resume %}
+                <p class="text-muted mb-2 font-13"><strong>Resume :</strong><span class="ml-2">     </span></p>
+          <a href="{{data.resume.url}}">Click here to view the resume</a>
+          {% else %}
+          <p class="text-muted mb-2 font-13"><strong>Resume :</strong><span class="ml-2">     </span></p>
+          <p>No Resume Provided!</p>
+          {% endif %}
+               
 
                 <p class="text-muted mb-2 font-13"><strong>Email :</strong> <span class="ml-2 ">{{i.email}}</span></p>
 
@@ -159,20 +55,7 @@
             <p class="text-muted mb-2 font-13"><strong>Looking For :</strong> <span class="ml-2 ">{{data.looking_for}}</span></p>
           </div>
 
-            <ul class="social-list list-inline mt-3 mb-0">
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-purple text-purple"><i class="fab fa-facebook"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-danger text-danger"><i class="fab fa-google"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-info text-info"><i class="fab fa-twitter"></i></a>
-                </li>
-                <li class="list-inline-item">
-                    <a href="javascript: void(0);" class="social-list-item border-secondary text-secondary"><i class="fab fa-github"></i></a>
-                </li>
-            </ul>
+            
         </div> <!-- end card-box -->
       
         <div class="card-box">

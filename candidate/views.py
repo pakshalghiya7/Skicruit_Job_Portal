@@ -9,6 +9,7 @@ from .models import Profile, Skill, UserSkill, Experience
 from .forms import ProfileUpdateForm, SkillUpdateForm, ExperienceForm
 from recruiter.models import Job, Selected, Applicants
 from candidate.models import savedJobs, appliedJobs
+from users.models import CustomUser
 
 
 class HomeView(View):
@@ -31,6 +32,8 @@ class MyProfileView(LoginRequiredMixin, View):
         profile = Profile.objects.filter(user=you).first()
         skills = UserSkill.objects.filter(user_skills=you)
         experience = Experience.objects.filter(user=you)
+        # print(CustomUser.objects.filter(email=you))
+        # print(you.username)
         skill_form = SkillUpdateForm()
         experience_form = ExperienceForm()
         context = {

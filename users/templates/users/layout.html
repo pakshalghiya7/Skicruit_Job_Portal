@@ -92,13 +92,13 @@
           {% comment %} Intelligent Search {% endcomment %}
           <a
             class="nav-item nav-link {{ intel_page }}"
-            href=#        
-            >Get Relevant Jobs</a
+            href="{% url 'saved-Jobs'%}"        
+            >Saved Jobs</a
           >
           <a
             class="nav-item nav-link {{ account_page }}"
-            href="{% url 'account' %}"
-            >My Account</a
+            href="{% url 'applied-jobs' %}"
+            >Applied Jobs</a
           >
           {% if user.is_authenticated %}
           <a
@@ -106,18 +106,18 @@
             href="{% url 'logout' %}"
             >Logout</a
           >
-          <a class="nav-item nav-link" href="{% url 'add-job' %}"
+          {% comment %} <a class="nav-item nav-link" href="{% url 'add-job' %}"
             >Recruiters/ Employers</a
-          >
+          > {% endcomment %}
           {% else %}
           <a
             class="nav-item nav-link btn btn-success ml-4 mr-4 text-light"
             href="{% url 'login' %}"
             >Login</a
           >
-          <a class="nav-item nav-link" href="{% url 'detail-recruiters' %}"
+          {% comment %} <a class="nav-item nav-link" href="{% url 'detail-recruiters' %}"
             >Recruiters/ Employers</a
-          >
+          > {% endcomment %}
           {% endif %}
         </div>
       </div>

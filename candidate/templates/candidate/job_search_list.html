@@ -68,12 +68,12 @@
     {% if jobs.has_previous %}
     <a
       class="btn btn-info"
-      href="?page=1{% if request.GET.query %}&p={{ request.GET.query }}{% endif %}{% if request.GET.location %}&q={{ request.GET.location }}{% endif %}"
+      href="?page=1{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}"
       >&laquo; First</a
     >
     <a
       class="btn btn-danger"
-      href="?page={{ jobs.previous_page_number }}{% if request.GET.query %}&p={{ request.GET.query }}{% endif %}{% if request.GET.location %}&q={{ request.GET.location }}{% endif %}"
+      href="?page={{ jobs.previous_page_number }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.location %}&loction={{ request.GET.location }}{% endif %}"
       >Prev</a
     >
     {% endif %}
@@ -83,12 +83,12 @@
     {% if jobs.has_next %}
     <a
       class="btn btn-success"
-      href="?page={{ jobs.next_page_number }}{% if request.GET.query %}&p={{ request.GET.query }}{% endif %}{% if request.GET.location %}&q={{ request.GET.location }}{% endif %}"
+      href="?page={{ jobs.next_page_number }}{% if request.GET.query %}&p={{ request.GET.query }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}"
       >Next</a
     >
     <a
       class="btn btn-primary"
-      href="?page={{ jobs.paginator.num_pages }}{% if request.GET.query %}&p={{ request.GET.query }}{% endif %}{% if request.GET.location %}&q={{ request.GET.location }}{% endif %}"
+      href="?page={{ jobs.paginator.num_pages }}{% if request.GET.query %}&query={{ request.GET.query }}{% endif %}{% if request.GET.location %}&location={{ request.GET.location }}{% endif %}"
       >Last &raquo;</a
     >
     {% endif %}
