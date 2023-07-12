@@ -55,7 +55,7 @@
   </head>
 
   <body>
-    {% if not rec_navbar %}
+    {% if user.is_employee %}
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <a class="navbar-brand" href="{% url 'home' %}">
         {% comment %} <a class="navbar-brand" href=#> {% endcomment %}
@@ -180,8 +180,8 @@
             >Login</a
           >
           {% endif %}
-          <a class="nav-item nav-link" href="{% url 'home' %}"
-            >Job Seekers/Candidates</a
+          <a class="nav-item nav-link" href="#"
+            ></a
           >
         </div>
       </div>

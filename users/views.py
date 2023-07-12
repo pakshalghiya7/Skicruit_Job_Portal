@@ -43,11 +43,12 @@ def loginview(request):
         user = authenticate(request, email=email, password=password)
         print(user.is_employee)
 
-        if user.is_employee :
+        if user.is_employee == True :
 
             login(request, user)
             return redirect('home1')
         elif user.is_employee is False:
+            login(request, user)
             return redirect('detail-recruiters')
         else:
             return render(request, 'users/login.html')  # Message
