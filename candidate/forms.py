@@ -4,7 +4,7 @@ from .models import Profile, Skill, UserSkill, Experience
 class ProfileUpdateForm(ModelForm):
     class Meta:
         model = Profile
-        exclude = ["user","email" "slug"]
+        exclude = ["user","email" ,"slug"]
 
 
 class SkillUpdateForm(ModelForm):

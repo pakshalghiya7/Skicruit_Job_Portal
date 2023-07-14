@@ -105,8 +105,8 @@ class EditProfileView(LoginRequiredMixin, View):
 
 
 class ProfileViewForRecruiterView(LoginRequiredMixin, View):
-    def get(self, request, slug):
-        profile = Profile.objects.filter(user=slug)
+    def get(self, request, pk):
+        profile = Profile.objects.filter(user=pk)
         print(profile)
         user = profile.user
         profile_skills = UserSkill.objects.get(user=user)

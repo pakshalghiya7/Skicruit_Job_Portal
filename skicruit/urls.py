@@ -20,6 +20,16 @@ from users import views
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
 from django.conf import settings
+# from users.views import MyLoginView, RegisterView
+
+from django.contrib.auth.views import (
+    LogoutView, 
+    PasswordResetView, 
+    PasswordResetDoneView, 
+    PasswordResetConfirmView,
+    PasswordResetCompleteView
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,7 +42,20 @@ urlpatterns = [
     path('account/', views.loginview,name="account"),
     path("",include('candidate.urls')),
     path("hiring/",include('recruiter.urls')),
+
+
+    # path('password-reset/', PasswordResetView.as_view(template_name='users/password_reset.html'),name='password-reset'),
+    path('password-reset/done/', PasswordResetDoneView.as_view(template_name='users/password_reset_done.html'),name='password_reset_done'),
+    path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(template_name='users/password_reset_confirm.html'),name='password_reset_confirm'),
+    path('password-reset-complete/',PasswordResetCompleteView.as_view(template_name='users/password_reset_complete.html'),name='password_reset_complete'),
     
+   path('password-reset/', 
+     PasswordResetView.as_view(
+        template_name='users/password_reset.html',
+        html_email_template_name='users/password_reset_email.html'
+    ),
+    name='password-reset'
+)
 ]
 #Play here
 if settings.DEBUG:

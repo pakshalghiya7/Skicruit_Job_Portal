@@ -226,10 +226,18 @@
         <a href=" {% provider_login_url 'github'%}" class="social-icon" aria-label="Register with GitHub">
           <i class="fab fa-github"></i>
         </a>
+    
+
+       
         
      
     </form>
     <script src="{% static '/assets/js/login.js' %}"></script>
-   
+    <a href="{% url 'home' %} " > New User? Register Yourself.</a>
+    OR
+    <a href="{% url 'password-reset' %}"><i>Forgot Password?</i></a>
+  
+  </div> 
+  
   
   </body>

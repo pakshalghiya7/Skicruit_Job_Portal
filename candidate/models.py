@@ -39,20 +39,20 @@ class Profile(models.Model):
     looking_for = models.CharField(
         choices=CHOICES, default="Full Time", max_length=30)
     bio = models.TextField(max_length=500, blank=True)
-    experience = models.IntegerField(verbose_name="Experience In Years")
+    # experience = models.IntegerField(verbose_name="Experience In Years")
     slug = AutoSlugField(populate_from='user',
                          unique=True, null=True, blank=True)
 
-    def clean(self): 
-        current_year = date.today().year
-        if self.passing_year > current_year - 1:
-            raise ValidationError(
-                "Passing year cannot be in the future or the current year.")
-        if self.experience < 0:
-            raise ValidationError("Experience cannot be negative.")
-        if current_year - self.passing_year < self.experience:
-            raise ValidationError(
-                "Experience cannot be greater than the years since passing.")
+    # def clean(self): 
+    #     current_year = date.today().year
+    #     if self.passing_year > current_year - 1:
+    #         raise ValidationError(
+    #             "Passing year cannot be in the future or the current year.")
+    #     if self.experience < 0:
+    #         raise ValidationError("Experience cannot be negative.")
+    #     if current_year - self.passing_year < self.experience:
+    #         raise ValidationError(
+    #             "Experience cannot be greater than the years since passing.")
 
     def __str__(self):
         return self.user.username
@@ -126,7 +126,7 @@ class Experience(models.Model):
             months = (duration.days % 365) // 30
             return f"{years}Y {months}M"
         else:
-            return "Currently Working"
+            return "Present"
 
     def yearStart(self):
         return self.start_date.strftime('%y')

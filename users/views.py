@@ -3,10 +3,7 @@ from django.shortcuts import render, redirect, HttpResponse
 from .models import CustomUser
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-from django.urls import reverse_lazy
-from django.contrib.auth.views import PasswordResetView
-from django.contrib.messages.views import SuccessMessageMixin
-
+from django.urls import reverse
 
 
 # Create your views here.
@@ -23,6 +20,10 @@ def signup(request):
         email = request.POST['email']
         password = request.POST['password']
         user_type = request.POST.get('user_type')
+
+        if CustomUser.objects.filter(username=username).exists() or CustomUser.objects.filter(email=email).exists():
+            messages.error(request, 'Username or email already exists. Please choose a different one.')
+            return redirect(reverse('signup') + f'?user_type={user_type}')
 
         if user_type == 'employee':
             user = CustomUser.objects.create_user(
@@ -63,12 +64,4 @@ def loginview(request):
     return render(request, 'users/login.html')
 
 
-class ResetPasswordView(SuccessMessageMixin, PasswordResetView):
-    template_name = 'users/password_reset.html'
-    email_template_name = 'users/password_reset_email.html'
-    subject_template_name = 'users/password_reset_subject'
-    success_message = "We've emailed you instructions for setting your password, " \
-                      "if an account exists with the email you entered. You should receive them shortly." \
-                      " If you don't receive an email, " \
-                      "please make sure you've entered the address you registered with, and check your spam folder."
-    success_url = reverse_lazy('users-home')
+
